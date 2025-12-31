@@ -1,41 +1,45 @@
-Lazzie 🎮
+```markdown
+# Lazzie 🎮
 
-Control browser media from your phone using WebSockets (LAN-only)
+> Control browser media from your phone using WebSockets (LAN-only)
 
 Lazzie is a Chrome extension + WebSocket-based system that lets you control media playing in your desktop browser (play, pause, volume) using your phone as a remote.
-Both devices must be connected to the same Wi-Fi network.
+
+**Both devices must be connected to the same Wi-Fi network.**
 
 No apps. No cloud. No external services.
 
-✨ Features
+---
 
-📱 Control desktop browser video from your phone
+## ✨ Features
 
-🔗 LAN-only communication (same Wi-Fi)
+- 📱 Control desktop browser video from your phone
+- 🔗 LAN-only communication (same Wi-Fi)
+- 🔐 Session-based pairing
+- ⚡ Real-time control using native WebSockets
+- 🧩 Chrome Extension (Manifest V3 compatible)
+- 🌐 Mobile-friendly web controller (no app install)
 
-🔐 Session-based pairing
+---
 
-⚡ Real-time control using native WebSockets
+## 🏗️ Architecture Overview
 
-🧩 Chrome Extension (Manifest V3 compatible)
-
-🌐 Mobile-friendly web controller (no app install)
-
-🏗️ Architecture Overview
+```
 Mobile Browser ── WebSocket ──┐
                                ├── Node.js WebSocket Server
 Chrome Extension ─ WebSocket ─┘
+```
 
+- **Server:** Node.js + `ws`
+- **Desktop:** Chrome Extension (MV3)
+- **Mobile:** Simple HTML + JavaScript
+- **Protocol:** JSON messages over native WebSockets
 
-Server: Node.js + ws
+---
 
-Desktop: Chrome Extension (MV3)
+## 📁 Project Structure
 
-Mobile: Simple HTML + JavaScript
-
-Protocol: JSON messages over native WebSockets
-
-📁 Project Structure
+```
 qr-media-remote/
 │
 ├── server/
@@ -53,96 +57,99 @@ qr-media-remote/
     ├── background.js   # WebSocket client (desktop)
     ├── content.js      # Media control logic
     └── popup.html
+```
 
-🚀 How It Works
+---
 
-Chrome extension connects to the local WebSocket server
+## 🚀 How It Works
 
-Server creates a session ID
+1. Chrome extension connects to the local WebSocket server
+2. Server creates a session ID
+3. Phone connects to the server and joins the session
+4. Phone sends media commands
+5. Extension receives commands and controls `<video>` elements
 
-Phone connects to the server and joins the session
+---
 
-Phone sends media commands
+## ▶️ Setup & Run
 
-Extension receives commands and controls <video> elements
+### 1️⃣ Start the Server
 
-▶️ Setup & Run
-1️⃣ Start the Server
+```bash
 cd server
 npm install
 node index.js
+```
 
+Server runs on: `ws://localhost:3000`
 
-Server runs on:
+### 2️⃣ Load the Chrome Extension
 
-ws://localhost:3000
+1. Open Chrome → `chrome://extensions`
+2. Enable **Developer mode**
+3. Click **Load unpacked**
+4. Select the `extension/` folder
+5. Reload the extension
 
-2️⃣ Load the Chrome Extension
+Check logs via: `chrome://extensions` → **Inspect views** → **service worker**
 
-Open Chrome → chrome://extensions
+### 3️⃣ Open Mobile Controller
 
-Enable Developer mode
+1. Open `mobile/index.html` on your phone
+2. Ensure phone and desktop are on the same Wi-Fi
+3. Join the session using the session ID (or QR in future version)
 
-Click Load unpacked
+---
 
-Select the extension/ folder
-
-Reload the extension
-
-Check logs via:
-
-chrome://extensions → Inspect views → service worker
-
-3️⃣ Open Mobile Controller
-
-Open mobile/index.html on your phone
-
-Ensure phone and desktop are on the same Wi-Fi
-
-Join the session using the session ID (or QR in future version)
-
-📡 Message Protocol (WebSocket)
+## 📡 Message Protocol (WebSocket)
 
 All communication uses JSON:
 
+```json
 { "type": "CREATE_SESSION" }
 { "type": "SESSION_CREATED", "sessionId": "..." }
 { "type": "JOIN_SESSION", "sessionId": "..." }
 { "type": "MEDIA_CONTROL", "action": "PLAY" }
+```
 
-🔒 Security Notes
+---
 
-Works only on local network
+## 🔒 Security Notes
 
-Sessions are temporary and in-memory
+- Works only on local network
+- Sessions are temporary and in-memory
+- No external servers or tracking
+- No data persistence
 
-No external servers or tracking
+---
 
-No data persistence
+## 🛠️ Tech Stack
 
-🛠️ Tech Stack
+- Node.js
+- WebSocket (`ws`)
+- Chrome Extensions (Manifest V3)
+- HTML / CSS / JavaScript
 
-Node.js
+---
 
-WebSocket (ws)
+## 📌 Future Improvements
 
-Chrome Extensions (Manifest V3)
+- [ ] QR code–based pairing
+- [ ] Multi-tab media selection
+- [ ] Playback state feedback
+- [ ] UI polish for mobile controller
+- [ ] Auto-reconnect handling
 
-HTML / CSS / JavaScript
+---
 
-📌 Future Improvements
+## 👤 Author
 
-QR code–based pairing
+**Built by Soumyadeep Bhattacharya**  
+Project name: **Lazzie**
 
-Multi-tab media selection
+---
 
-Playback state feedback
-
-UI polish for mobile controller
-
-Auto-reconnect handling
-
-👤 Author
-
-Built by Soumyadeep Bhattacharya
-Project name: Lazzie
+<div align="center">
+  <sub>Made with ❤️ for lazy media control</sub>
+</div>
+```
