@@ -11,6 +11,10 @@ const {
 
 const app = express();
 const server = http.createServer(app);
+
+
+app.use("/mobile", express.static(__dirname + "/../mobile"));
+
 const wss = new WebSocket.Server({ server });
 
 wss.on("connection", (ws) => {
@@ -27,23 +31,16 @@ wss.on("connection", (ws) => {
     switch (data.type) {
       case "CREATE_SESSION": {
         const sessionId = createSession(ws);
-        ws.send(
-          JSON.stringify({
-            type: "SESSION_CREATED",
-            sessionId,
-          })
-        );
+        ws.send(JSON.stringify({ type: "SESSION_CREATED", sessionId }));
         console.log("Session created:", sessionId);
         break;
       }
 
       case "JOIN_SESSION": {
         const success = joinSession(data.sessionId, ws);
-        ws.send(
-          JSON.stringify({
-            type: success ? "SESSION_JOINED" : "SESSION_INVALID",
-          })
-        );
+        ws.send(JSON.stringify({
+          type: success ? "SESSION_JOINED" : "SESSION_INVALID",
+        }));
         break;
       }
 

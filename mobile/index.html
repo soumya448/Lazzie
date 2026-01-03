@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lazzie Controller</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Lazzie 🎮</h1>
+
+    <div class="status" id="status">Connecting...</div>
+
+    <div class="controls">
+      <button onclick="sendAction('PLAY')">▶ Play</button>
+      <button onclick="sendAction('PAUSE')">⏸ Pause</button>
+      <button onclick="sendAction('VOLUME_UP')">🔊 +</button>
+      <button onclick="sendAction('VOLUME_DOWN')">🔉 −</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
