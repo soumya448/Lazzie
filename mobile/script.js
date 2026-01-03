@@ -10,7 +10,7 @@ if (!sessionId) {
 }
 
 // IMPORTANT: Replace with your desktop IP when testing on phone
-const WS_URL = `ws://192.168.1.140:3000`;
+const WS_URL = `ws://192.168.0.103:3000`;
 
 const ws = new WebSocket(WS_URL);
 

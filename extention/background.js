@@ -38,4 +38,11 @@ function forwardToContentScript(action) {
   });
 }
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "GET_SESSION") {
+    sendResponse({ sessionId });
+  }
+});
+
+
 connect();
