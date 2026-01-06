@@ -1,3 +1,7 @@
+// Chrome injects content.js
+// Into every page matching matches
+// Automatically when the page loads
+
 function getActiveVideo(){
     const videos = document.getElementsByTagName('video');
     if(!videos.length)

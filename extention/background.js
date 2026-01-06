@@ -1,6 +1,6 @@
 console.log("Background service worker started");
 
-const WS_URL = "ws://localhost:3000";
+const WS_URL = "ws://localhost:3000"; // runs the ws server on localhost (same machine)(127.0.0.1)
 let ws = null;
 let desktopIp = null;
 let sessionId = null;
