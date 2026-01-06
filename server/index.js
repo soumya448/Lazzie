@@ -1,3 +1,4 @@
+const os = require("os");
 const express = require("express");
 const http = require("http");
 const WebSocket = require("ws");
@@ -8,6 +9,29 @@ const {
   getSessionByClient,
   removeSessionByClient,
 } = require("./sessions");
+
+//we can not get local IP address from extension directly due to security reasons hence we do it from server side
+//helper function for detecting local IP address
+function getLocalIPAddress() {
+  const interfaces = os.networkInterfaces();
+
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      if (
+        iface.family === "IPv4" &&
+        !iface.internal &&
+        iface.address.startsWith("192.")
+      ) {
+        return iface.address;
+      }
+    }
+  }
+
+  return "127.0.0.1";
+}
+
+
+
 
 const app = express();
 const server = http.createServer(app);
@@ -31,7 +55,8 @@ wss.on("connection", (ws) => {
     switch (data.type) {
       case "CREATE_SESSION": {
         const sessionId = createSession(ws);
-        ws.send(JSON.stringify({ type: "SESSION_CREATED", sessionId }));
+        const ip = getLocalIPAddress();
+        ws.send(JSON.stringify({ type: "SESSION_CREATED", sessionId, ip }));
         console.log("Session created:", sessionId);
         break;
       }

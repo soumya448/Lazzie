@@ -9,8 +9,11 @@ if (!sessionId) {
   throw new Error("Missing sessionId");
 }
 
-// IMPORTANT: Replace with your desktop IP when testing on phone
-const WS_URL = `ws://192.168.0.103:3000`;
+
+//dynamically determine ws or wss based on page protocol
+// location.hostname determines server address
+const protocol = location.protocol === "https:" ? "wss" : "ws";
+const WS_URL = `${protocol}://${location.hostname}:3000`;
 
 const ws = new WebSocket(WS_URL);
 

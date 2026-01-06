@@ -2,6 +2,7 @@ console.log("Background service worker started");
 
 const WS_URL = "ws://localhost:3000";
 let ws = null;
+let desktopIp = null;
 let sessionId = null;
 
 function connect() {
@@ -17,7 +18,9 @@ function connect() {
 
     if (data.type === "SESSION_CREATED") {
       sessionId = data.sessionId;
+      desktopIp = data.ip;
       console.log("Session ID:", sessionId);
+      console.log("Desktop IP:", desktopIp);
     }
 
     if (data.type === "MEDIA_CONTROL") {
@@ -40,7 +43,7 @@ function forwardToContentScript(action) {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "GET_SESSION") {
-    sendResponse({ sessionId });
+    sendResponse({ sessionId, ip: desktopIp });
   }
 });
 

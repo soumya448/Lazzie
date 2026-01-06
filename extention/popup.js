@@ -8,10 +8,11 @@ chrome.runtime.sendMessage(
       return;
     }
 
+    const ip = response.ip || "localhost";
     const sessionId = response.sessionId;
 
     // TEMP: hostname only (we improve this in Enhancement #2)
-    const url = `http://192.168.0.103:3000/mobile/index.html?session=${sessionId}`;
+    const url = `http://${ip}:3000/mobile/index.html?session=${sessionId}`;
 
     new QRCode(qrContainer, {
       text: url,
